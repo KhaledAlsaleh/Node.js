@@ -42,9 +42,8 @@ function creatBlog(req,res) {
   if(!fs.existsSync(path.join(__dirname, "/blogs", `${req.body.title}.txt`))){
     fs.writeFileSync(path.join(__dirname, "/blogs", `${req.body.title}.txt`),`${newBlog.title}\n${newBlog.content}`); 
     res.status(201).end('Ok, new blog created!');
-  }else{
-    // I'm not sure if the status code is correct but I couldn't fine on google any code refer to file is exist
-    res.status(208).end('Blog is already exist you do not have to create it again!');
+  }else{ 
+    res.status(400).end('Blog is already exist you do not have to create it again!');
   }
 }
 
@@ -74,7 +73,7 @@ function deleteBlog(req,res){
 function readSingleBlog(req,res) {
     // Make sure the blog is exist to read it
   if(fs.existsSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`))){
-    const post = fs.readFileSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`));
+    const post = fs.readFile(path.join(__dirname, "/blogs", `${req.params.title}.txt`));
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(post);
   }else{
