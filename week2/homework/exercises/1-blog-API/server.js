@@ -8,11 +8,11 @@ const app = express();
 app.use(express.json());
 
 
-app.get(    '/blogs'        , (req,res) => readAllBlogs(req,res)    );
-app.get(    '/blogs/:title' , (req,res) => readSingleBlog(req,res)  );
-app.post(   '/blogs'        , (req,res) => creatBlog(req,res)       );
-app.put(    '/blogs/:title' , (req,res) => updateBlog(req,res)      );
-app.delete( '/blogs/:title' , (req,res) => deleteBlog(req,res)      );
+app.get(    '/blogs'        , readAllBlogs    );
+app.get(    '/blogs/:title' , readSingleBlog  );
+app.post(   '/blogs'        , creatBlog       );
+app.put(    '/blogs/:title' , updateBlog      );
+app.delete( '/blogs/:title' , deleteBlog      );
 
 
 function isInvalid(req){
