@@ -10,7 +10,7 @@
  * - Print the entire response to the console to see how it is structured.
  */
 
-// What I understand is I have to use GET method so I use express  
+// What I understand is I have to use GET method   
 const express = require('express');
 const fetch = require('node-fetch');
 
