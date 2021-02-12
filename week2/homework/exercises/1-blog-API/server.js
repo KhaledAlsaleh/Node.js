@@ -7,12 +7,15 @@ const fs = require('fs');
 const app = express();
 app.use(express.json());
 
+const dir = "/blogs";
 
-app.get(    '/blogs'        , (req,res) => readAllBlogs(req,res)    );
-app.get(    '/blogs/:title' , (req,res) => readSingleBlog(req,res)  );
-app.post(   '/blogs'        , (req,res) => creatBlog(req,res)       );
-app.put(    '/blogs/:title' , (req,res) => updateBlog(req,res)      );
-app.delete( '/blogs/:title' , (req,res) => deleteBlog(req,res)      );
+
+app.get(    '/blogs'        , readAllBlogs   );
+app.get(    '/blogs/:title' , readSingleBlog );
+app.post(   '/blogs'        , creatBlog      );
+app.put(    '/blogs/:title' , updateBlog     );
+app.delete( '/blogs/:title' , deleteBlog     );
+
 
 
 function isInvalid(req){
@@ -39,8 +42,8 @@ function creatBlog(req,res) {
   // }
 
   // Make sure the blog is not exist, so you don't have to create a blog twice or more!
-  if(!fs.existsSync(path.join(__dirname, "/blogs", `${req.body.title}.txt`))){
-    fs.writeFileSync(path.join(__dirname, "/blogs", `${req.body.title}.txt`),`${newBlog.title}\n${newBlog.content}`); 
+  if(!fs.existsSync(path.join(__dirname, dir, `${req.body.title}.txt`))){
+    fs.writeFileSync(path.join(__dirname, dir, `${req.body.title}.txt`),`${newBlog.title}\n${newBlog.content}`); 
     res.status(201).end('Ok, new blog created!');
   }else{ 
     res.status(400).end('Blog is already exist you do not have to create it again!');
@@ -52,8 +55,8 @@ function updateBlog(req,res) {
     return res.status(400).send('Invalid request, please include a title and content!');
   }
   // Make sure the blog is exist to update it
-  if(fs.existsSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`))){
-    fs.writeFileSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`),`${req.body.title}\n${req.body.content}`); 
+  if(fs.existsSync(path.join(__dirname, dir, `${req.params.title}.txt`))){
+    fs.writeFileSync(path.join(__dirname, dir, `${req.params.title}.txt`),`${req.body.title}\n${req.body.content}`); 
     res.status(200).end(`Ok, blog ${req.params.title} updated!`); 
   }else{
     res.status(404).end('Blog is not exist!');
@@ -62,8 +65,8 @@ function updateBlog(req,res) {
 
 function deleteBlog(req,res){
   // Make sure the blog is exist to delete it
-  if(fs.existsSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`))){
-    fs.unlinkSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`));
+  if(fs.existsSync(path.join(__dirname, dir, `${req.params.title}.txt`))){
+    fs.unlinkSync(path.join(__dirname, dir, `${req.params.title}.txt`));
     res.status(200).end(`Ok, blog ${req.params.title} deleted!`);
   }else{
     res.status(404).end('Blog is not exist!');
@@ -72,8 +75,8 @@ function deleteBlog(req,res){
 
 function readSingleBlog(req,res) {
     // Make sure the blog is exist to read it
-  if(fs.existsSync(path.join(__dirname, "/blogs", `${req.params.title}.txt`))){
-    const post = fs.readFile(path.join(__dirname, "/blogs", `${req.params.title}.txt`));
+  if(fs.existsSync(path.join(__dirname, dir, `${req.params.title}.txt`))){
+    const post = fs.readFile(path.join(__dirname, dir, `${req.params.title}.txt`));
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(post);
   }else{
