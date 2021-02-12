@@ -85,7 +85,7 @@ function readSingleBlog(req,res) {
 }
 
 function readAllBlogs(req,res) {
-  const allFiles = fs.readdirSync(path.join(__dirname, "/blogs"));
+  const allFiles = fs.readdirSync(path.join(__dirname, dir));
   res.writeHead(200, { 'Content-Type' : 'application/json' });
   res.end(JSON.stringify(allFiles));
   // Or res.end(allFiles.toString());
