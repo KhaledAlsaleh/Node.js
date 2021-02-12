@@ -10,12 +10,11 @@ app.use(express.json());
 const dir = "/blogs";
 
 
-app.get(    '/blogs'        , readAllBlogs   );
-app.get(    '/blogs/:title' , readSingleBlog );
-app.post(   '/blogs'        , creatBlog      );
-app.put(    '/blogs/:title' , updateBlog     );
-app.delete( '/blogs/:title' , deleteBlog     );
-
+app.get(    '/blogs'        , readAllBlogs    );
+app.get(    '/blogs/:title' , readSingleBlog  );
+app.post(   '/blogs'        , creatBlog       );
+app.put(    '/blogs/:title' , updateBlog      );
+app.delete( '/blogs/:title' , deleteBlog      );
 
 
 function isInvalid(req){
